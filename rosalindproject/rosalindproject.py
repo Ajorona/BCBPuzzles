@@ -4,59 +4,39 @@ import argparse
 
 from menu import Menu
 
-
-from frequentWords import matchPattern, patternCount, frequentWords
-from reverseComplement import reverseComplement
-from patternMatching import patternMatching
-
-importedAlgorithms = ["frequentwords", "reversecomplement", "patternmatching"]
+from frequentwords import frequentWords
+from patternmatching import patternMatching
+from reversecomplement import reverseComplement
+from algorithmdecorators import frequentWordsDecorator, patternMatchingDecorator, reverseComplementDecorator
 
 
-def validateAlgorithmChoice(parser, algorithm):
-    if algorithm.lower() not in validAlgorithms:
-        parser.error("Cannot find {}".format(algorithm))
-        sys.exit(-1)
-    else:
-        return algorithm.lower()
+class RosalindProject():
+    importedAlgorithms = ["frequentwords", "reversecomplement", "patternmatching"]
 
+    def __init__(self, INPUT=None, OUTPUT=None):
+        self.INPUT = INPUT
+        self.OUTPUT = OUTPUT
 
-def readInputFile(algorithm, fileHandle):
-    with fileHandle as file:
-        lines = [line.strip() for line in file]
-    lineCount = len(lines)
-    if algorithm == "frequentwords":
-        sequence = lines[:(lineCount-1)]
-        k = lines[lineCount-1]
-        text = [nt for oligo in sequence for nt in oligo]
-        return (text, int(k))
-    elif algorithm == "reversecomplement":
-        text = [nt for oligo in lines for nt in oligo]
-        return text
-    elif algorithm == "patternmatching":
-        pattern = [nt for nt in lines[0]]
-        genome = [nt for oligo in lines[1:lineCount] for nt in oligo]
-        return (pattern, genome)
+    def run(self):
+        menu = Menu(RosalindProject.importedAlgorithms)
+        self.algorithmChoice = menu.run()
+        self.runAlgorithm()
 
+    def runAlgorithm(self):
+        with open(self.INPUT, 'rt') as INPUT:
+            lines = [line.strip() for line in file]
+            numLines = len(lines)
+        INPUT.close()
 
+        output = None
+        if self.algorithmChoice == "frequentwords":
+            output = frequentWordsDecorator(frequentWords, (lines, numLines))
+        elif self.algorithmChoice == "reversecomplement":
+            output = patternMatchingDecorator(patternMatching, (lines, numLines))
+        elif self.algorithmChoice == "patternmatching":
+            output = reverseComplementDecorator(reverseComplement, (lines, numLines))
 
-def runAlgorithm(algorithm, INPUT, FILENAME=False):
-    outputStr = ""
-    if algorithm == "frequentwords":
-        frequentPatterns = frequentWords(INPUT)
-        for i, pattern in enumerate(frequentPatterns):
-            line = ''
-            for i, pattern in enumerate(frequentPatterns):
-                line += '{} '.format(''.join(pattern))
-                if (i+1) % 6 == 0:
-                    outputStr += (line + '\n')
-            if line != '':
-                outputStr += (line + '\n')
-    elif algorithm == "reversecomplement":
-        INPUT = reverseComplement(INPUT)
-        line = ""
-        for i in range(len(INPUT)):
-            outputStr += INPUT[i]
-    elif algorithm == "patternmatching":
-        startPoints = patternMatching(INPUT)
-        for i in range(len(startPoints)):
-            outputStr += str(startPoints[i]) + " "
+        with open(self.OUTPUT, 'wt') as OUTPUT:
+            if output:
+                OUTPUT.write(output)
+        OUTPUT.close()

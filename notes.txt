@@ -1,6 +1,0 @@
-The case for bioinformatics
-  - binfo methods are much faster than experimental approaches
-  - the results of many experiments require comp analysis
-  - 
-  
-A computational approach to finding ori 
