@@ -11,7 +11,7 @@ class Menu():
 
     @staticmethod
     def display(options):
-        print("BCB Algorithm CLI")
+        print("Rosalind Project Algorithm CLI")
         print("Enter [Number] to invoke [Option]")
         for index, option in enumerate(options):
             print("{}: {}".format((index+1), option))

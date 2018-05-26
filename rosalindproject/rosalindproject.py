@@ -2,12 +2,13 @@ import os
 import sys
 import argparse
 
-from menu import Menu
+from utilities import Menu
 
-from frequentwords import frequentWords
-from patternmatching import patternMatching
-from reversecomplement import reverseComplement
-from algorithmdecorators import frequentWordsDecorator, patternMatchingDecorator, reverseComplementDecorator
+from algorithms.frequentwords import frequentWords
+from algorithms.patternmatching import patternMatching
+from algorithms.reversecomplement import reverseComplement
+
+from algorithms.algorithmdecorators import frequentWordsDecorator, patternMatchingDecorator, reverseComplementDecorator
 
 
 class RosalindProject():
