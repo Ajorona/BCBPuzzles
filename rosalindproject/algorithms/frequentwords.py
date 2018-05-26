@@ -19,16 +19,13 @@ def patternCount(textAndPattern):
             count += 1
     return count
 
-def frequentWords(textAndk):
-    ''' takes a tuple of input text and kmer length
-            k, returns most frequent k length kmers'''
-    text, k = textAndk
+def frequentWords(sequence, k):
     frequentPatterns  = []
-    kmerCount = len(text)-k
-    count = [patternCount( (text, text[i:(i+k)]) ) for i in range(kmerCount+1)]
+    kmerCount = len(sequence)-k
+    count = [patternCount( (sequence, sequence[i:(i+k)]) ) for i in range(kmerCount+1)]
     maxCount = max(count)
     for i in range(kmerCount):
         if count[i] == maxCount:
-            frequentPatterns.append(text[i:(i+k)])
+            frequentPatterns.append(sequence[i:(i+k)])
     pattern_set = set(tuple(pattern) for pattern in frequentPatterns)
     return [list(pattern_tuple) for pattern_tuple in pattern_set]

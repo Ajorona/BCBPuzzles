@@ -11,8 +11,9 @@ class Menu():
 
     @staticmethod
     def display(options):
+        Menu.clearScreen()
         print("Rosalind Project Algorithm CLI")
-        print("Enter [Number] to invoke [Option]")
+        print("Enter [Number] to invoke [Algorithm]")
         for index, option in enumerate(options):
             print("{}: {}".format((index+1), option))
 
@@ -31,7 +32,7 @@ class Menu():
             try:
                 userInput = int(userInput)
                 if userInput-1 in range(inputRange):
-                    return userInput
+                    return userInput-1
             except ValueError:
                 print("Invalid Option. Try Again.")
 
